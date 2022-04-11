@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_push_notification_app/api/notification_api.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -37,7 +38,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: FlatButton.icon(
                     color: Colors.blue,
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      NotificationApi.showNotifications(
+                          title: 'Oyebayo Femi',
+                          body: 'This is your first Notification',
+                          payload: 'oyebayo.femi');
+                    },
                     icon: Icon(
                       Icons.add_alert,
                       size: 30,
