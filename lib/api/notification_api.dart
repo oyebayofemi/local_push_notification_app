@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:local_push_notification_app/utils/utils.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -28,8 +29,13 @@ class NotificationApi {
       },
     );
 
-    _notifications.show(id, title, body, await _notificationDetails(),
-        payload: payload);
+    _notifications.show(
+      id,
+      title,
+      body,
+      await _notificationDetails(),
+      payload: payload,
+    );
   }
 
   static Future showScheduleNotifications({
@@ -77,12 +83,25 @@ class NotificationApi {
         'high_channel', 'High Importance Notification',
         description: "This channel is for important notification",
         importance: Importance.max);
+
+    final largeIconPath = await Utils.dowloadFile(
+        'https://universalinsuranceplc.com/wp-content/uploads/2019/08/Tunji-Oyebayo.jpg',
+        'largeIcon');
+    final bigPicturePath = await Utils.dowloadFile(
+        'https://affianze.com/storage/614c25ef4857e.jpg', 'bigPicture');
+
+    final styleInformation = BigPictureStyleInformation(
+      FilePathAndroidBitmap(bigPicturePath),
+      largeIcon: FilePathAndroidBitmap(largeIconPath),
+    );
+
     return NotificationDetails(
       android: AndroidNotificationDetails(
         channel.id,
         channel.name,
         channelDescription: channel.description,
         importance: Importance.max,
+        styleInformation: styleInformation,
       ),
       iOS: IOSNotificationDetails(),
     );
