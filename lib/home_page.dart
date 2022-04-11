@@ -82,7 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: FlatButton.icon(
                     color: Colors.green,
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      NotificationApi.showScheduleNotifications(
+                          title: 'Dinner',
+                          body: 'Dinner at 5PM',
+                          payload: 'dinner_5pm',
+                          scheduleDateTime:
+                              DateTime.now().add(Duration(seconds: 15)));
+                    },
                     icon: Icon(
                       Icons.alarm,
                       size: 30,
