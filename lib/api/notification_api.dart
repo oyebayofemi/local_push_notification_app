@@ -22,6 +22,7 @@ class NotificationApi {
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
+
     _notifications.initialize(
       initializationSettings,
       onSelectNotification: (payload) async {
@@ -58,7 +59,14 @@ class NotificationApi {
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
-    _notifications.initialize(
+
+//when app is closed
+    final details = await _notifications.getNotificationAppLaunchDetails();
+    if (details != null && details.didNotificationLaunchApp) {
+      onNotifications.add(payload);
+    }
+
+    await _notifications.initialize(
       initializationSettings,
       onSelectNotification: (payload) async {
         onNotifications.add(payload);
