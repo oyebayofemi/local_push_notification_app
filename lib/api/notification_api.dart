@@ -1,7 +1,9 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
 
 class NotificationApi {
   static final _notifications = FlutterLocalNotificationsPlugin();
+  static final onNotifications = BehaviorSubject<String?>();
 
   static Future showNotifications(
       {int id = 0, String? title, String? body, String? payload}) async {
@@ -19,6 +21,9 @@ class NotificationApi {
             iOS: initializationSettingsIOS);
     _notifications.initialize(
       initializationSettings,
+      onSelectNotification: (payload) async {
+        onNotifications.add(payload);
+      },
     );
 
     _notifications.show(id, title, body, await _notificationDetails(),

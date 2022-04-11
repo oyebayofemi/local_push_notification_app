@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local_push_notification_app/api/notification_api.dart';
+import 'package:local_push_notification_app/second_page.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -9,6 +10,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    listenNotifications();
+  }
+
+  void listenNotifications() =>
+      NotificationApi.onNotifications.stream.listen(onClickedNotification);
+
+  void onClickedNotification(String? payload) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => SecondPage(payload: payload),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
